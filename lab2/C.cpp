@@ -1,0 +1,51 @@
+#include<cstdio>
+#include<cstring>
+long long g[1000010],tmp[1000010];
+void mergeSort(int l,int r)
+{
+    int mid=(l+r)>>1;
+    if (l==r) return;
+    mergeSort(l,mid);
+    mergeSort(mid+1,r);
+    int i=l,j=mid+1;
+    int pos=0;
+//  printf("%d %d\n",l,r);
+    while (i<=mid&&j<=r) {
+    //  printf("(%d %d)",i,j);
+        if (g[i]>g[j]) {
+            tmp[++pos]=g[j];j++;
+        }
+        else {
+            tmp[++pos]=g[i];i++;
+        }
+    }
+     
+    while (i<=mid) {
+        tmp[++pos]=g[i++];
+    }
+    while (j<=r) {
+        tmp[++pos]=g[j++];
+    }
+//  for (int i=1;i<=pos;i++) printf("(%d)",tmp[i]);
+//  printf("\n");
+    for (int i=1;i<=pos;i++)
+    g[l+i-1]=tmp[i];
+}
+int main()
+{
+    int t=1;
+    while (t--) {
+        int n;
+        scanf("%d",&n);
+        for (int i=1;i<=n;i++) scanf("%lld",&g[i]);
+        int pos=n/3+1;
+        mergeSort(1,n);
+        printf("%lld\n",g[n/3+1]);
+        for (int i=1;i<=n/3;i++){
+        //  printf("(%d %lld)",pos,g[pos]);
+            printf("%lld %lld ",g[i],g[pos]);pos++;
+            printf("%lld ",g[pos]);pos++;
+        }
+        for (int i=pos;i<=n;i++) printf("%d ",g[i]);
+    }
+}
